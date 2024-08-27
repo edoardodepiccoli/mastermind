@@ -20,12 +20,10 @@ require 'colorize'
 
 class Game
   @@testing = false
-  
+
   def initialize(puzzler_class, guesser_class)
     system("clear")
-    puts("welcome to mastermind!".colorize(:blue))
-    puts
-    puts("these are your possible color choices:")
+    # puts("these are your possible color choices:")
 
     @color_choices = {
       r: "🔴",
@@ -35,8 +33,6 @@ class Game
       p: "🟣",
       o: "🟠"
     }
-    @color_choices.each {|key, value| puts("#{key.to_s} => #{value}")}
-    puts
 
     @max_guesses = 12
     @board = Board.new(@max_guesses, @color_choices)
@@ -46,40 +42,39 @@ class Game
     @puzzler = puzzler_class.new
     @guesser = guesser_class.new
 
-    @board.create_winning_row(@puzzler)
-    @board.display_board(@@testing)
-    puts
+    @board.create_secret_row(@puzzler)
 
     play_round
   end
 
   private
 
-  def reset_screen(winning_row_visible = false)
+  def reset_screen(secret_row_visible = false)
     system("clear")
-      puts("these are your possible color choices:")
-      @color_choices.each {|key, value| puts("#{key.to_s} => #{value}")}
-      puts
-      @board.display_board(winning_row_visible)
+    puts("these are the colors you can choose\ninserting from left to right, bottom to top")
+    @color_choices.each {|key, value| puts("#{key.to_s} => #{value}")}
+    puts
+    @board.display_board(@@testing)
     puts
   end
 
   def play_round
-    if @board.won?
+    if @board.won? # show won and reveal secret
       system("clear")
-      puts("you won!".colorize(:green))
+      puts("game won!".colorize(:green))
       puts
       @board.display_board(true)
       puts
       return
-    elsif no_more_turns? # lost
+    elsif no_more_turns? # show lost and reveal secret
       system("clear")
-      puts("no more guesses left, you lost!".colorize(:red))
+      puts("no more guesses left, game lost!".colorize(:red))
       puts
       @board.display_board(true)
       puts
       return
     else
+      reset_screen
       while(@row_turn < 4) do
         puts("round number #{@round}")
 
