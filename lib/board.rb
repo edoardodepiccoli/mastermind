@@ -7,8 +7,8 @@ class Board
     create_board_array(max_guesses)
   end
 
-  def display_board
-    @winning_row.each {|item| print(item)}
+  def display_board(reveal = false)
+    @winning_row.each {|item| print(reveal ? item : "❓")}
     print("\n")
     @board.reverse.each do |item|
       item.each do |cell|
@@ -36,17 +36,18 @@ class Board
   end
 
   def give_row_feedback(row)
-    # implement feedback logic
-    # for each element in the current row up to the fourth
-    # check if color in row present in winning_row
-    # if it is then check if it is in the right position, push to the row accordingly
-    @board[row].first(4).each_with_index do |cell|
-      if @winning_row.include?(cell)
-        if @winning_row.index(cell) == @board[row].index(cell)
-          @board[row].push("🔴")
-        else
-          @board[row].push("⚪️")
-        end
+
+    @board[row].first(4).each_with_index do |item, index|
+      # create array with indexes of selected color in winning row
+      color_indexes = @winning_row.each_with_index.reduce([]) do |acc, (second_item, second_index)|
+        acc.push(second_index) if second_item == item
+        acc
+      end
+
+      if @winning_row.include?(item) && color_indexes.include?(index)
+        @board[row].push("🔴")
+      elsif @winning_row.include?(item)
+        @board[row].push("⚪️")
       end
     end
   end
