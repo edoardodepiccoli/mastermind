@@ -10,7 +10,7 @@ It is not perfect at all and the code is quite messy, but for a first draft is g
 
 - [ ] Refactor code so I don't have to edit stuff in 1000 different places to add, change or remove a current program behaviour (no example coming to mind right now)
 - [ ] Show better and more comprehensive instructions and game feedback (available colors, game rules and so on)
-- [x] Add option to choose the available colors from code
+- [x] Add option to choose the available colors from game class
 - [ ] Add option to choose the available colors and rounds from CLI
 - [x] Add option to play as puzzler against ai
 - [ ] Add option to play as the puzzler against AI (I still have to find a reliable game strategy)
