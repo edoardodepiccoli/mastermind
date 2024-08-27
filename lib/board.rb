@@ -1,8 +1,9 @@
 class Board
 
-  def initialize(max_guesses)
+  def initialize(max_guesses, color_choices)
     @board = []
     @winning_row = []
+    @color_choices = color_choices
 
     create_board_array(max_guesses)
   end
@@ -20,7 +21,8 @@ class Board
 
   def create_winning_row(player)
     4.times do |i|
-      @winning_row[i] = convert_letter_to_color(player.get_color_choice)
+      user_input = player.get_color_choice(@color_choices)
+      @winning_row[i] = convert_letter_to_color(user_input)
     end
   end
 
@@ -59,23 +61,10 @@ class Board
   end
 
   def convert_letter_to_color(letter)
-    case letter
-    when "r" then "🔴"
-    when "g" then "🟢"
-    when "b" then "🔵"
-    when "y" then "🟡"
-    else letter
+    if @color_choices.keys.include?(letter.to_sym)
+      @color_choices[letter.to_sym]
+    else
+      letter
     end
   end
-
-  def convert_colors_to_letter(color)
-    case color
-    when "🔴" then "r"
-    when "🟢" then "g"
-    when "🔵" then "b"
-    when "🟡" then "y"
-    else color
-    end
-  end
-
 end

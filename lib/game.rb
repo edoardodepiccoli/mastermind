@@ -20,14 +20,26 @@ require 'colorize'
 
 class Game
   @@testing = false
-
+  
   def initialize(puzzler_class, guesser_class)
     system("clear")
     puts("welcome to mastermind!".colorize(:blue))
     puts
+    puts("these are your possible color choices:")
+
+    @color_choices = {
+      r: "🔴",
+      g: "🟢",
+      b: "🔵",
+      y: "🟡",
+      p: "🟣",
+      o: "🟠"
+    }
+    @color_choices.each {|key, value| puts("#{key.to_s} => #{value}")}
+    puts
 
     @max_guesses = 12
-    @board = Board.new(@max_guesses)
+    @board = Board.new(@max_guesses, @color_choices)
     @round = 0
     @row_turn = 0
 
@@ -45,6 +57,9 @@ class Game
 
   def reset_screen(winning_row_visible = false)
     system("clear")
+      puts("these are your possible color choices:")
+      @color_choices.each {|key, value| puts("#{key.to_s} => #{value}")}
+      puts
       @board.display_board(winning_row_visible)
     puts
   end
@@ -53,12 +68,14 @@ class Game
     if @board.won?
       system("clear")
       puts("you won!".colorize(:green))
+      puts
       @board.display_board(true)
       puts
       return
     elsif no_more_turns? # lost
       system("clear")
       puts("no more guesses left, you lost!".colorize(:red))
+      puts
       @board.display_board(true)
       puts
       return
@@ -66,7 +83,7 @@ class Game
       while(@row_turn < 4) do
         puts("round number #{@round}")
 
-        user_input = @guesser.get_color_choice
+        user_input = @guesser.get_color_choice(@color_choices)
         @board.insert_color(user_input, @round, @row_turn)
 
         reset_screen(@@testing)
