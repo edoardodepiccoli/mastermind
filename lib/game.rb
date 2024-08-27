@@ -19,7 +19,7 @@ require_relative 'human_player'
 require 'colorize'
 
 class Game
-  @@debugging = false
+  @@testing = false
 
   def initialize(puzzler_class, guesser_class)
     system("clear")
@@ -35,7 +35,7 @@ class Game
     @guesser = guesser_class.new
 
     @board.create_winning_row(@puzzler)
-    @board.display_board(@@debugging)
+    @board.display_board(@@testing)
     puts
 
     play_round
@@ -43,40 +43,40 @@ class Game
 
   private
 
-  def play_round 
-    # add win check here before everything else
+  def reset_screen(winning_row_visible = false)
+    system("clear")
+      @board.display_board(winning_row_visible)
+    puts
+  end
+
+  def play_round
     if @board.won?
       system("clear")
       puts("you won!".colorize(:green))
       @board.display_board(true)
       puts
       return
-    elsif no_more_turns?
+    elsif no_more_turns? # lost
       system("clear")
       puts("no more guesses left, you lost!".colorize(:red))
-      @board.display_board(@@debugging)
+      @board.display_board(true)
       puts
       return
     else
-      #turn starts 
       while(@row_turn < 4) do
-        # ask for player input
         puts("round number #{@round}")
 
         user_input = @guesser.get_color_choice
         @board.insert_color(user_input, @round, @row_turn)
 
-        system("clear")
-        @board.display_board(@@debugging)
-        puts
+        reset_screen(@@testing)
 
         @row_turn += 1
       end
 
       @board.give_row_feedback(@round)
-      system("clear")
-      @board.display_board(@@debugging)
-      puts
+
+      reset_screen(@@testing)
 
       @round += 1
       @row_turn = 0
