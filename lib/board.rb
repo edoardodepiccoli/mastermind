@@ -37,12 +37,24 @@ class Board
 
   def give_row_feedback(row)
     # implement feedback logic
+    # for each element in the current row up to the fourth
+    # check if color in row present in winning_row
+    # if it is then check if it is in the right position, push to the row accordingly
+    @board[row].first(4).each_with_index do |cell|
+      if @winning_row.include?(cell)
+        if @winning_row.index(cell) == @board[row].index(cell)
+          @board[row].push("🔴")
+        else
+          @board[row].push("⚪️")
+        end
+      end
+    end
   end
 
   private
 
   def create_board_array(max_guesses)
-    max_guesses.times {@board.push(["⚫️", "⚫️", "⚫️", "⚫️", "|", "x", "x", "x", "x",])}
+    max_guesses.times {@board.push(["⚫️", "⚫️", "⚫️", "⚫️", "|"])}
   end
 
   def convert_letter_to_color(letter)

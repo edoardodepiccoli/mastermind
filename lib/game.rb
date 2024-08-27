@@ -66,6 +66,11 @@ class Game
         @row_turn += 1
       end
 
+      @board.give_row_feedback(@round)
+      system("clear")
+      @board.display_board
+      puts
+
       @round += 1
       @row_turn = 0
       play_round
