@@ -19,7 +19,7 @@ require_relative 'human_player'
 require 'colorize'
 
 class Game
-  @@testing = true
+  @@testing = false
 
   def initialize(puzzler_class, guesser_class)
     system("clear")
