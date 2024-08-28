@@ -19,11 +19,10 @@ require_relative 'human_player'
 require 'colorize'
 
 class Game
-  @@testing = false
+  @@testing = true
 
   def initialize(puzzler_class, guesser_class)
     system("clear")
-    # puts("these are your possible color choices:")
 
     @color_choices = {
       r: "🔴",
@@ -50,7 +49,7 @@ class Game
   private
 
   def reset_screen(secret_row_visible = false)
-    system("clear")
+    # system("clear")
     puts("these are the colors you can choose\ninserting from left to right, bottom to top")
     @color_choices.each {|key, value| puts("#{key.to_s} => #{value}")}
     puts

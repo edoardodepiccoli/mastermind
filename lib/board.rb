@@ -44,6 +44,7 @@ class Board
   end
 
   def give_row_feedback(row)
+    points = []
 
     @board[row].first(4).each_with_index do |item, index|
       # create array with indexes of selected color in winning row
@@ -53,11 +54,15 @@ class Board
       end
 
       if @secret_row.include?(item) && color_indexes.include?(index)
-        @board[row].push("🔴")
+        # @board[row].push("🔴")
+        points.push("🔴")
       elsif @secret_row.include?(item)
-        @board[row].push("⚪️")
+        # @board[row].push("⚪️")
+        points.push("⚪️")
       end
     end
+    
+    @board[row] = @board[row].concat(points.shuffle)
   end
 
   private
