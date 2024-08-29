@@ -30,7 +30,7 @@ class Game
       b: "🔵",
       y: "🟡",
       p: "🟣",
-      o: "🟠"
+      o: "🟠",
     }
 
     @max_guesses = 12
@@ -49,7 +49,7 @@ class Game
   private
 
   def reset_screen(secret_row_visible = false)
-    # system("clear")
+    system("clear")
     puts("these are the colors you can choose\ninserting from left to right, bottom to top")
     @color_choices.each {|key, value| puts("#{key.to_s} => #{value}")}
     puts
