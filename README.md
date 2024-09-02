@@ -5,6 +5,9 @@ This is a simple mistermind CLI game that I coded as an exercise for [The Odin P
 It is not perfect at all and the code is quite messy, but for a first draft is good enough
 
 
+## Things learned with the latest added feature
+- OOP is incredibly modular and maintainable and you can change a lot of features and app flow by changing less than a few lines of code
+
 
 ## Things to fix
 
