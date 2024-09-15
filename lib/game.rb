@@ -1,15 +1,13 @@
-=begin
-
-mastermind; player vs computer; 12 turns to guess secret code
-for the entire game the player roles will be the same, next game maybe inverted
-
-first (computer) selects the winning_row of colors
-then display ? ? ? ? and board under it
-ask opposite player for guess
-  highlight placing position, select color, update board, display results when finished
-repeat until no more guesses left
-
-=end
+#
+# mastermind; player vs computer; 12 turns to guess secret code
+# for the entire game the player roles will be the same, next game maybe inverted
+#
+# first (computer) selects the winning_row of colors
+# then display ? ? ? ? and board under it
+# ask opposite player for guess
+#   highlight placing position, select color, update board, display results when finished
+# repeat until no more guesses left
+#
 
 require_relative 'board'
 require_relative 'player'
@@ -22,15 +20,15 @@ class Game
   @@testing = false
 
   def initialize(puzzler_class, guesser_class)
-    system("clear")
+    system('clear')
 
     @color_choices = {
-      r: "🔴",
-      g: "🟢",
-      b: "🔵",
-      y: "🟡",
-      p: "🟣",
-      o: "🟠",
+      r: '🔴',
+      g: '🟢',
+      b: '🔵',
+      y: '🟡',
+      p: '🟣',
+      o: '🟠'
     }
 
     @max_guesses = 12
@@ -49,9 +47,9 @@ class Game
   private
 
   def reset_screen(secret_row_visible = false)
-    system("clear")
+    system('clear')
     puts("these are the colors you can choose\ninserting from left to right, bottom to top")
-    @color_choices.each {|key, value| puts("#{key.to_s} => #{value}")}
+    @color_choices.each { |key, value| puts("#{key} => #{value}") }
     puts
     @board.display_board(@@testing)
     puts
@@ -59,22 +57,22 @@ class Game
 
   def play_round
     if @board.won? # show won and reveal secret
-      system("clear")
-      puts("game won!".colorize(:green))
+      system('clear')
+      puts('game won!'.colorize(:green))
       puts
       @board.display_board(true)
       puts
-      return
+      nil
     elsif no_more_turns? # show lost and reveal secret
-      system("clear")
-      puts("no more guesses left, game lost!".colorize(:red))
+      system('clear')
+      puts('no more guesses left, game lost!'.colorize(:red))
       puts
       @board.display_board(true)
       puts
-      return
+      nil
     else
       reset_screen
-      while(@row_turn < 4) do
+      while @row_turn < 4
         puts("round number #{@round}")
 
         user_input = @guesser.get_color_choice(@color_choices)
@@ -96,11 +94,8 @@ class Game
   end
 
   def no_more_turns?
-    if @round == @max_guesses
-      return true
-    else
-      return false
-    end
-  end
+    return true if @round == @max_guesses
 
+    false
+  end
 end

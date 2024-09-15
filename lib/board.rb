@@ -1,7 +1,6 @@
 require_relative 'utils'
 
 class Board
-
   include Utils
 
   def initialize(max_guesses, color_choices)
@@ -13,7 +12,7 @@ class Board
   end
 
   def display_board(reveal = false)
-    @secret_row.each {|item| print(reveal ? item : "❓")}
+    @secret_row.each { |item| print(reveal ? item : '❓') }
     print("\n")
     @board.reverse.each do |item|
       item.each do |cell|
@@ -40,7 +39,7 @@ class Board
     @board.each do |row|
       return true if row.first(4) == @secret_row
     end
-    return false
+    false
   end
 
   def give_row_feedback(row)
@@ -48,27 +47,25 @@ class Board
 
     @board[row].first(4).each_with_index do |item, index|
       # create array with indexes of selected color in winning row
-      color_indexes = @secret_row.each_with_index.reduce([]) do |acc, (second_item, second_index)|
+      color_indexes = @secret_row.each_with_index.each_with_object([]) do |(second_item, second_index), acc|
         acc.push(second_index) if second_item == item
-        acc
       end
 
       if @secret_row.include?(item) && color_indexes.include?(index)
         # @board[row].push("🔴")
-        points.push("🔴")
+        points.push('🔴')
       elsif @secret_row.include?(item)
         # @board[row].push("⚪️")
-        points.push("⚪️")
+        points.push('⚪️')
       end
     end
-    
+
     @board[row] = @board[row].concat(points.shuffle)
   end
 
   private
 
   def create_board_array(max_guesses)
-    max_guesses.times {@board.push(["⚫️", "⚫️", "⚫️", "⚫️", "|"])}
+    max_guesses.times { @board.push(['⚫️', '⚫️', '⚫️', '⚫️', '|']) }
   end
-
 end
