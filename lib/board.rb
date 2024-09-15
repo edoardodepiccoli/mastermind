@@ -23,11 +23,7 @@ class Board
   end
 
   def create_secret_row(player)
-    # 4.times do |i|
-    #   user_input = player.get_secret_colors(@color_choices)
-    #   @secret_row[i] = convert_letter_to_color(user_input)
-    # end
-    player_choices = player.get_secret_colors(@color_choices) # should return an array of color emojis
+    player_choices = player.get_secret_colors(@color_choices)
     @secret_row = player_choices
   end
 
